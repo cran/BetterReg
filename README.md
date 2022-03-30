@@ -1,6 +1,6 @@
 # BetterReg Readme
 
-Chris Aberson February 20, 2022
+Chris Aberson March 29, 2022
 
 # BetterReg
 
@@ -19,4 +19,4 @@ I built this under R 4.1.1
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under GNU General Public License version 3.

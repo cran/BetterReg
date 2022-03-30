@@ -10,6 +10,7 @@
 
 pseudo<-function(model=NULL)
   {
+mymodel<-model
 nulldev<-mymodel$null.deviance
 moddev<-mymodel$deviance
 n<-mymodel$df.null+1
