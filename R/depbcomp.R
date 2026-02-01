@@ -11,7 +11,7 @@
 #'@param numpred number of predictors
 #'@param comps Type of comparison, "abs" for absolute values or "raw" for raw coefficients
 #'@examples
-#'depbcomp(data=testreg,y=y,x1=x1,x2=x2,x3=x3,x4=x4,x5=x5, numpred=5,comps="abs")
+#'depbcomp(data=testreg,y="y",x1="x1",x2="x2",x3="x3",x4="x4",x5="x5", numpred=5,comps="abs")
 #'@return Comparing Dependent Coefficients in Multiple Regression
 #'@export
 #'
@@ -20,33 +20,33 @@ depbcomp<-function(data=NULL,y=NULL, x1=NULL, x2=NULL,x3=NULL,x4=NULL,x5=NULL,nu
 {
   if (numpred ==2 && comps=="abs")
   {
-  xx<-dplyr::select(data,y,x1,x2)
-  xx<-as.data.frame(xx)
-  mod<-lm(xx[,1]~xx[,2]+xx[,3])
-  values<-summary(mod)
-  b1<-(values$coefficients)[2,1] #grabs b from each analysis
-  b2<-(values$coefficients)[3,1]
-  seb1<-(values$coefficients)[2,2]
-  seb2<-(values$coefficients)[3,2]
-  df<- values$df[2]
-  varx1<-var(xx[,2])
-  varx2<-var(xx[,3])
-  r12<-abs(cor(xx[,2],xx[,3]))
-  mat<-cbind(c(1,r12),c(r12,1))
-  inv<-solve(mat)*mat
-  pij<-inv[1,2] #inv of cor between pred1 and 2
-  pii<-inv[1,1] #inv of cov, v1
-  pjj<-inv[2,2] #inv of cov, v2
-  den1<-seb1^2+seb2^2
-  den2<-2*seb1*seb2
-  den3<-pij/(pii+pjj)
-  den<-(den1-(den2*den3))^.5
-  t12<-abs((abs(b1)-(abs(b2)))) / den
-  p12<-2*(1-(pt(q=abs(t12), df=df, lower.tail=TRUE)))
-  t12<-round((t12),3)
-  message("Pred 1 vs. Pred 2 "," : t = ", t12,", p = ", p12)
+    xx<-dplyr::select(data,y,x1,x2)
+    xx<-as.data.frame(xx)
+    mod<-lm(xx[,1]~xx[,2]+xx[,3])
+    values<-summary(mod)
+    b1<-(values$coefficients)[2,1] #grabs b from each analysis
+    b2<-(values$coefficients)[3,1]
+    seb1<-(values$coefficients)[2,2]
+    seb2<-(values$coefficients)[3,2]
+    df<- values$df[2]
+    varx1<-var(xx[,2])
+    varx2<-var(xx[,3])
+    r12<-abs(cor(xx[,2],xx[,3]))
+    mat<-cbind(c(1,r12),c(r12,1))
+    inv<-solve(mat)*mat
+    pij<-inv[1,2] #inv of cor between pred1 and 2
+    pii<-inv[1,1] #inv of cov, v1
+    pjj<-inv[2,2] #inv of cov, v2
+    den1<-seb1^2+seb2^2
+    den2<-2*seb1*seb2
+    den3<-pij/(pii+pjj)
+    den<-(den1-(den2*den3))^.5
+    t12<-abs((abs(b1)-(abs(b2)))) / den
+    p12<-2*(1-(pt(q=abs(t12), df=df, lower.tail=TRUE)))
+    t12<-round((t12),3)
+    message("Pred 1 vs. Pred 2 "," : t = ", t12,", p = ", p12)
 
-    }
+  }
   if (numpred ==3 && comps=="abs")
   {
     xx<-dplyr::select(data,y,x1,x2,x3)
@@ -160,7 +160,7 @@ depbcomp<-function(data=NULL,y=NULL, x1=NULL, x2=NULL,x3=NULL,x4=NULL,x5=NULL,nu
     t14<-abs(abs(b1)-abs(b4)) / dend
     p14<-2*(1-(pt(q=abs(t14), df=df, lower.tail=TRUE)))
     t14<-round((t14),3)
-      #2 vs 3
+    #2 vs 3
     pij3<-inv[2,3] #inv of cor between pred of interest 1 vs. 2
     pii3<-inv[2,2] #inv of cov, v1
     pjj3<-inv[3,3] #inv of cov, v2
@@ -290,7 +290,7 @@ depbcomp<-function(data=NULL,y=NULL, x1=NULL, x2=NULL,x3=NULL,x4=NULL,x5=NULL,nu
     t23<-abs(abs(b2)-abs(b3)) / denc
     p23<-2*(1-(pt(q=abs(t23), df=df, lower.tail=TRUE)))
     t23<-round((t23),3)
-      #2 vs 4
+    #2 vs 4
     pij5<-inv[2,4] #inv of cor between pred of interest 1 vs. 2
     pii5<-inv[2,2] #inv of cov, v1
     pjj5<-inv[4,4] #inv of cov, v2
@@ -707,5 +707,4 @@ depbcomp<-function(data=NULL,y=NULL, x1=NULL, x2=NULL,x3=NULL,x4=NULL,x5=NULL,nu
     message("Pred 4 vs. Pred 5 "," : t = ", t45,", p = ", p45)
   }
 
-  }
-
+}
